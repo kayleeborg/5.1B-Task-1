@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact us</title>
+    <link rel="stylesheet" href="contact form.css">
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sections = document.querySelectorAll('.fade-in-section');
+        
+        const options = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="AOYN.png" alt="Logo">
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">home</a></li>
+                    <li><a href="shop.html">sets</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contactform.html">contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-icons">
+            <div class="search-container">
+                <input type="text" placeholder="Search...">
+                <img src="SEARCH.svg" alt="Search Icon" class="search-icon">
+            </div>
+            <a href="wishlist.html"><img src="WISHLIST.svg" alt="Wishlist"></a>
+            <a href="cart.html"><img src="CART.svg" alt="Cart"></a>
+            <a href="login.html"><img src="USER.svg" alt="Account"></a>
+        </div>
+    </header>
+    <main class="contact-main fade-in-section">
+        <div class="contact-wrapper fade-in-section">
+            <!-- Left: Form in Container -->
+            <div class="contact-container">
+                <h1 class="contact-title">contact us</h1>
+                <p class="contact-subtitle">if you have questions about your order or placing an order, please use the below form.</p>
+                
+                <form class="contact-form" action="submit-form.php" method="POST">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="name">name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="email">e-mail</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="message">message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">submit</button>
+                </form>
+            </div>
+            
+            <!-- Right: Image -->
+            <div class="contact-image">
+                <img src="CONTACTFORM IMG.jpg" alt="Contact Image">
+            </div>
+        </div>
+    </main>
+</body>
+</html>

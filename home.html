@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to AOYN</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sections = document.querySelectorAll('.fade-in-section');
+        
+        const options = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="AOYN.png" alt="Logo">
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">home</a></li>
+                    <li><a href="shop.html">sets</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contactform.html">contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-icons">
+            <div class="search-container">
+                <input type="text" placeholder="Search...">
+                <img src="SEARCH.svg" alt="Search Icon" class="search-icon">
+            </div>
+            <a href="wishlist.html"><img src="WISHLIST.svg" alt="Wishlist"></a>
+            <a href="cart.html"><img src="CART.svg" alt="Cart"></a>
+            <a href="login.html"><img src="USER.svg" alt="Account"></a>
+        </div>
+    </header>
+    
+    <main>
+        
+        <section class="hero-content">
+            <div class="hero-image">
+                <img src="HOMEPAGE IMG.jpg" alt="Flawless Nails">
+            </div>
+            <div class="hero-text">
+                <h1>flawless nails<br>in minutes</h1>
+                <p>premium press-on nails that look salon-fresh!</p>
+                <a href="shop.html" class="btn-shop">shop now</a>
+            </div>
+        </section>
+        
+        <div class="fade-in-section">
+            <section class="handmade">
+                <h2>handmade</h2>
+                <p>with love.</p>
+            </section>
+        </div>
+        <div class="fade-in-section">
+            <section class="nail-showcase">
+                <img src="HOMEPAGE IMG 2.jpg" alt="Handmade Nails">
+            </section>
+        </div>
+        <div class="fade-in-section">
+            <section class="newsletter">
+                <h3>subscribe to our newsletter</h3>
+                <p>enter your email address below</p>
+                <form>
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">➔</button>
+                </form>
+            </section>
+        </div>
+        
+    </main>
+</body>
+</html>
