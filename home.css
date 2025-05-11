@@ -122,6 +122,72 @@ nav ul li a:hover {
     filter: brightness(0) saturate(100%) invert(40%) sepia(8%) saturate(500%) hue-rotate(20deg) brightness(95%) contrast(85%);
 }
 
+/* User Dropdown */
+
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-icon {
+    width: 28px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 36px;
+    right: 0;
+    background-color: white;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    padding: 10px 0;
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    margin-top: 37px;
+}
+
+.dropdown-content[hidden] {
+    display: none !important;
+}
+
+.dropdown-content a {
+    padding: 10px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #111;
+    text-decoration: none;
+    text-transform: lowercase;
+}
+
+.dropdown-content a:hover {
+    background-color: #f8f8f8;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 5px 20px;
+}
+
+@keyframes fadeDropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-content {
+    animation: fadeDropIn 0.25s ease-out;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
 /*  Hero Section */
 .hero {
     width: 100%;
@@ -169,7 +235,7 @@ nav ul li a:hover {
 .btn-shop {
     margin-top: 30px; /* space between button and text */
     display: inline-block;
-    background-color: #ff4081;
+    background-color: #FC4A9D;
     color: white;
     padding: 10px 20px;
     border-radius: 50px;
@@ -308,4 +374,62 @@ nav ul li a:hover {
 .fade-in-section.is-visible {
     opacity: 1;
     transform: none;
+}
+
+/*-- BANNER --*/
+.promo-banner {
+    width: 100%;
+    background: #FC4A9D;     
+    color: #FEFFF1;                
+    font-weight: 400;
+    font-size: 0.9rem;
+    line-height: 1;          
+    overflow: hidden;             
+    padding-block: 0.6rem;       
+}
+
+/*-- MOVING TRACK --*/
+.promo-track {
+    display: flex;
+    white-space: max-content;          
+    animation: scroll-left 25s linear infinite;
+}
+
+.promo-msg{
+    white-space: nowrap;
+    padding-inline: 1rem;
+}
+
+.promo-msg::after {
+    content: attr(content);
+}
+
+@keyframes scroll-left {
+    0%   { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+/*-- PAUSE ON HOVER - ACCESSIBILITY --*/
+.promo-banner:hover .promo-track,
+.promo-banner:focus-within .promo-track {
+    animation-play-state: paused;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+/*-- END BANNER CONTAINER --*/
+
+/* Mobile View */
+
+body.mobile-view .hero-text h1 {
+    font-size: 32px;
 }
