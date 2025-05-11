@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pQdfVjNf7D/tTFeVBNdtGmSp7wH4vK+aVhmpNzRZxPYBGMZzL5qstZZR1+UjPZFO" crossorigin="anonymous">
+    <link rel="stylesheet" href="shop.css">
+    <script src="shop.js"></script>
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sections = document.querySelectorAll('.fade-in-section');
+        
+        const options = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const query = localStorage.getItem("searchQuery") || "";
+        if (query) {
+            // Clear search so it doesn't persist
+            localStorage.removeItem("searchQuery");
+            
+            // Loop through your product items and hide non-matches
+            document.querySelectorAll(".product-card").forEach(card => {
+                const name = card.querySelector("h3").textContent.toLowerCase();
+                card.style.display = name.includes(query) ? "block" : "none";
+            });
+        }
+    });
+</script>
+
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="AOYN.png" alt="Logo">
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">home</a></li>
+                    <li><a href="shop.html">sets</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contactform.html">contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-icons">
+            <div class="search-container">
+                <input type="text" placeholder="Search..." id="searchInput">
+                <img src="SEARCH.svg" alt="Search Icon" class="search-icon">
+            </div>
+            <a href="wishlist.html"><img src="WISHLIST.svg" alt="Wishlist"></a>
+            <a href="cart.html"><img src="CART.svg" alt="Cart"></a>
+            <div class="user-dropdown">
+                <img src="USER.svg" alt="User Icon" id="userIcon" class="user-icon" />
+                <div class="dropdown-content" id="dropdownMenu" hidden></div>
+            </div>
+        </header>
+        <section class="shop-section fade-in-section">
+            <div class="shop-header fade-in-section">
+                <h2 class="shop-title fade-in-section">sets</h2>
+                <div class="sort-dropdown">
+                    sort by:
+                    <select>
+                        <option value="new">date, new to old</option>
+                        <option value="old">date, old to new</option>
+                        <option value="priceLowHigh">price, low to high</option>
+                        <option value="priceHighLow">price, high to low</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="product-grid fade-in-section">
+                <div class="product-card fade-in-section" data-url="product1.html">
+                    <img src="TIGER MAMACITA.jpg" alt="Tiger Mamacita">
+                    <div class="product-info">
+                        <h3>tiger mamacita</h3>
+                        <p>€45</p>
+                    </div>
+                </div>
+                
+                <div class="product-card fade-in-section" data-url="product2.html">
+                    <img src="HAWAII LOLITA.jpg" alt="Hawaii Lolita">
+                    <div class="product-info">
+                        <h3>hawaii lolita</h3>
+                        <p>€40</p>
+                    </div>
+                </div>
+                
+                <div class="product-card fade-in-section" data-url="product3.html">
+                    <img src="CYBER PRIMER.jpg" alt="Cyber Primer">
+                    <div class="product-info">
+                        <h3>cyber primer</h3>
+                        <p>€65</p>
+                    </div>
+                </div>
+                
+                <div class="product-card fade-in-section" data-url="product4.html">
+                    <img src="PURPLE LAGOON.jpg" alt="Purple Lagoon">
+                    <div class="product-info">
+                        <h3>purple lagoon</h3>
+                        <p>€75</p>
+                    </div>
+                </div>
+                
+                <div class="product-card fade-in-section" data-url="product5.html">
+                    <img src="ORANGE BLISS.jpg" alt="Orange Bliss">
+                    <div class="product-info">
+                        <h3>orange bliss</h3>
+                        <p>€55</p>
+                    </div>
+                </div>
+                
+                <div class="product-card fade-in-section" data-url="product6.html">
+                    <img src="SEA BREEZE.jpg" alt="Sea Breeze">
+                    <div class="product-info">
+                        <h3>sea breeze</h3>
+                        <p>€85</p>
+                    </div>
+                </div>
+                
+                <div class="product-card fade-in-section" data-url="product7.html">
+                    <img src="CHROME ZONE.jpg" alt="Chrome Zone">
+                    <div class="product-info">
+                        <h3>chrome zone</h3>
+                        <p>€75</p>
+                    </div>
+                </div>
+                
+                <div class="product-card fade-in-section" data-url="product8.html">
+                    <img src="SWEETIE PINK.jpg" alt="Sweetie Pink">
+                    <div class="product-info">
+                        <h3>sweetie pink</h3>
+                        <p>€55</p>
+                    </div>
+                </div>
+                
+                <div class="product-card fade-in-section" data-url="product9.html">
+                    <img src="GRIME SLIME.jpg" alt="Grime Slime">
+                    <div class="product-info">
+                        <h3>grime slime</h3>
+                        <p>€65</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="back-to-top-bar fade-in-section">
+            <button onclick="scrollToTop()" class="back-to-top-button">
+                go back to top <span class="arrow-up">↑</span>
+            </button>
+        </footer>
+        <script>
+            function scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        </script>
+        <script>
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const url = card.getAttribute('data-url');
+                    if (url) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-RUtn2BaQIRHqqv8r+uePZC7zgjXNcZfYKtZIfblT7uPZK+P6gWJ8TDixow1XjiyD" crossorigin="anonymous"></script>
+        <script>
+            window.addEventListener('resize', handleMobileAdjustments);
+            window.addEventListener('DOMContentLoaded', handleMobileAdjustments);
+            
+            function handleMobileAdjustments() {
+                if (window.innerWidth < 768) {
+                    document.body.classList.add('mobile-view');
+                } else {
+                    document.body.classList.remove('mobile-view');
+                }
+            }
+        </script>
+        <script>
+            function updateMobileClass() {
+                if (window.innerWidth < 768) {
+                    document.body.classList.add('mobile-view');
+                } else {
+                    document.body.classList.remove('mobile-view');
+                }
+            }
+            
+            window.addEventListener('resize', updateMobileClass);
+            window.addEventListener('DOMContentLoaded', updateMobileClass);
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const dropdown = document.getElementById("dropdownMenu");
+                const userIcon = document.getElementById("userIcon");
+                const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+                
+                // Inject menu content
+                dropdown.innerHTML = isLoggedIn
+                ? `
+                <a href="user.html">profile</a>
+                <div class="dropdown-divider"></div>
+                <a href="home.html" id="signoutLink">sign out</a>
+    `
+                : `
+                <a href="login.html">login</a>
+                <div class="dropdown-divider"></div>
+                <a href="signup.html">sign-up</a>
+    `;
+                
+                // Show/hide toggle
+                userIcon.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Prevent window click from instantly hiding it
+                    dropdown.hidden = !dropdown.hidden;
+                });
+                
+                // Close when clicking outside
+                document.addEventListener("click", (e) => {
+                    if (!e.target.closest(".user-dropdown")) {
+                        dropdown.hidden = true;
+                    }
+                });
+                
+                // Handle sign out
+                dropdown.addEventListener("click", (e) => {
+                    if (e.target.id === "signoutLink") {
+                        e.preventDefault();
+                        localStorage.removeItem("isLoggedIn");
+                        localStorage.removeItem("loggedInEmail");
+                        window.location.href = "home.html";
+                    }
+                });
+            });
+        </script>
+                <script>
+            const searchInput = document.getElementById("searchInput");
+            
+            searchInput.addEventListener("keypress", function(e) {
+                if (e.key === "Enter") {
+                    const query = searchInput.value.trim().toLowerCase();
+                    if (query) {
+                        localStorage.setItem("searchQuery", query);
+                        window.location.href = "shop.html";
+                        
+                        searchInput.value = "";
+                    }
+                }
+            });
+        </script>
+    </body>
+    </html>

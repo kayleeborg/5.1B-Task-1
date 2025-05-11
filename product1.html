@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger Mamacita</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pQdfVjNf7D/tTFeVBNdtGmSp7wH4vK+aVhmpNzRZxPYBGMZzL5qstZZR1+UjPZFO" crossorigin="anonymous">
+    <link rel="stylesheet" href="productview.css">
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sections = document.querySelectorAll('.fade-in-section');
+        
+        const options = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const addToCartBtn = document.querySelector('.add-to-cart');
+        
+        addToCartBtn.addEventListener('click', () => {
+            const product = {
+                name: 'tiger mamacita',
+                price: 45,
+                quantity: parseInt(document.getElementById('quantity').value),
+                image: 'TIGER MAMACITA.jpg' // using image name/path
+            };
+            
+            // Get existing cart
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push(product);
+            
+            // Save back to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Redirect to the cart page
+            window.location.href = 'cart.html';
+        });
+    });
+</script>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="AOYN.png" alt="Logo">
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">home</a></li>
+                    <li><a href="shop.html">sets</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contactform.html">contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-icons">
+            <div class="search-container">
+                <input type="text" placeholder="Search..." id="searchInput">
+                <img src="SEARCH.svg" alt="Search Icon" class="search-icon">
+            </div>
+            <a href="wishlist.html"><img src="WISHLIST.svg" alt="Wishlist"></a>
+            <a href="cart.html"><img src="CART.svg" alt="Cart"></a>
+            <div class="user-dropdown">
+                <img src="USER.svg" alt="User Icon" id="userIcon" class="user-icon" />
+                <div class="dropdown-content" id="dropdownMenu" hidden></div>
+            </div>
+    </header>
+    
+    <main class="product-page fade-in-section">
+        <div class="product-container fade-in-section">
+            <div class="product-gallery fade-in-section">
+                <div class="carousel-track">
+                    <img src="TIGER MAMACITA.jpg" alt="Tiger Mamacita Nails" class="carousel-image">
+                    <img src="how to know your size.png" alt="How to Know Your Size" class="carousel-image">
+                    <img src="aoyn.png" alt="AOYN" class="carousel-image">
+                </div>
+                <div class="gallery-controls">
+                    <button class="gallery-prev">‹</button>
+                    <div class="gallery-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <button class="gallery-next">›</button>
+                </div>
+                <button class="wishlist-btn" aria-label="Add to Wishlist">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 
+                        4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 
+                        16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 
+                        11.54L12 21.35z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="product-details fade-in-section">
+                <h1 class="product-title">tiger mamacita</h1>
+                <div class="product-attributes">
+                    <p>style <span class="attribute-tag">square</span></p>
+                    <p>length <span class="attribute-tag">long</span></p>
+                    <p>size <span class="attribute-tag">medium</span></p>
+                </div>
+                <p class="product-price">€45</p>
+                
+                <div class="quantity-selector">
+                    <button type="button" class="qty-btn" id="decrease">-</button>
+                    <input type="text" id="quantity" value="1" readonly>
+                    <button type="button" class="qty-btn" id="increase">+</button>
+                </div>
+                
+                <button class="add-to-cart">add to cart</button>
+            </div>
+        </div>
+        
+        
+        <section class="product-includes fade-in-section">
+            <h2>what's included:</h2>
+            <ul>
+                <li>1. 10 hand painted gel nails</li>
+                <li>2. new: 1 additional backup nail "just in case"</li>
+                <li>3. application kit: mini file, mini buffer, cuticle pusher, nail glue, and an alcohol wipe.</li>
+            </ul>
+        </section>
+        
+        <section class="product-notes fade-in-section">
+            <p>*colours may appear differently depending on your screen settings and may not exactly match the actual product.</p>
+            <p>*please double-check your nail size and selection before placing your order. If you're between sizes, choosing the larger size is usually a safer option.</p>
+            <p>*as each set is completely handmade, slight variations may occur.</p>
+        </section>
+        
+        <section class="you-may-also-like fade-in-section">
+            <h2>you may also like</h2>
+            <div class="recommendations fade-in-section">
+                <div class="recommend-card fade-in-section">
+                    <img src="CHROME ZONE.jpg" alt="Chrome Zone">
+                    <h3>chrome zone</h3>
+                    <p>€75</p>
+                </div>
+                <div class="recommend-card fade-in-section">
+                    <img src="SWEETIE PINK.jpg" alt="Sweetie Pink">
+                    <h3>sweetie pink</h3>
+                    <p>€55</p>
+                </div>
+            </div>
+        </section>
+    </main>        
+    
+    <footer class="back-to-top-bar fade-in-section">
+        <button onclick="scrollToTop()" class="back-to-top-button">
+            go back to top <span class="arrow-up">↑</span>
+        </button>
+    </footer>
+    <script>
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+    <script>
+        
+        function changeImage(newSrc) {
+            mainImage.classList.add('fade-out');
+            setTimeout(() => {
+                mainImage.src = newSrc;
+                mainImage.classList.remove('fade-out');
+            }, 300); // Match the fade duration
+        }
+        const track = document.querySelector('.carousel-track');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = track.children.length;
+        
+        let currentIndex = 0;
+        
+        function showSlide(index) {
+            // Keep index in bounds
+            currentIndex = index;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            // Update dots
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentIndex].classList.add('active');
+        }
+        
+        document.querySelector('.gallery-next').addEventListener('click', () => {
+            const nextIndex = (currentIndex + 1) % totalSlides;
+            showSlide(nextIndex);
+        });
+        
+        document.querySelector('.gallery-prev').addEventListener('click', () => {
+            const prevIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            showSlide(prevIndex);
+        });
+        
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+        
+        // Show first slide initially
+        showSlide(0);
+        
+        // Wishlist functionality
+        document.addEventListener("DOMContentLoaded", () => {
+    const wishlistBtn = document.querySelector(".wishlist-btn");
+
+    const product = {
+    id: "product1",
+    name: "Tiger Mamacita",
+    price: 45.00,
+    image: "TIGER MAMACITA.jpg",
+    url: "product1.html"
+};
+
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    if (wishlist.some(item => item.id === product.id)) {
+        wishlistBtn.classList.add("active");
+    }
+
+    wishlistBtn.addEventListener("click", () => {
+        const exists = wishlist.some(item => item.id === product.id);
+
+        if (!exists) {
+            wishlist.push(product);
+            wishlistBtn.classList.add("active");
+        } else {
+            wishlist = wishlist.filter(item => item.id !== product.id);
+            wishlistBtn.classList.remove("active");
+        }
+
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    });
+});
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const decreaseBtn = document.getElementById('decrease');
+            const increaseBtn = document.getElementById('increase');
+            const quantityInput = document.getElementById('quantity');
+            
+            decreaseBtn.addEventListener('click', () => {
+                let current = parseInt(quantityInput.value);
+                if (current > 1) {
+                    quantityInput.value = current - 1;
+                }
+            });
+            
+            increaseBtn.addEventListener('click', () => {
+                let current = parseInt(quantityInput.value);
+                quantityInput.value = current + 1;
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-RUtn2BaQIRHqqv8r+uePZC7zgjXNcZfYKtZIfblT7uPZK+P6gWJ8TDixow1XjiyD" crossorigin="anonymous"></script>
+    <script>
+        window.addEventListener('resize', handleMobileAdjustments);
+        window.addEventListener('DOMContentLoaded', handleMobileAdjustments);
+        
+        function handleMobileAdjustments() {
+            if (window.innerWidth < 768) {
+                document.body.classList.add('mobile-view');
+            } else {
+                document.body.classList.remove('mobile-view');
+            }
+        }
+    </script>
+    <script>
+        function updateMobileClass() {
+            if (window.innerWidth < 768) {
+                document.body.classList.add('mobile-view');
+            } else {
+                document.body.classList.remove('mobile-view');
+            }
+        }
+        
+        window.addEventListener('resize', updateMobileClass);
+        window.addEventListener('DOMContentLoaded', updateMobileClass);
+    </script>
+    <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const dropdown = document.getElementById("dropdownMenu");
+                const userIcon = document.getElementById("userIcon");
+                const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+                
+                // Inject menu content
+                dropdown.innerHTML = isLoggedIn
+                ? `
+                <a href="user.html">profile</a>
+                <div class="dropdown-divider"></div>
+                <a href="home.html" id="signoutLink">sign out</a>
+    `
+                : `
+                <a href="login.html">login</a>
+                <div class="dropdown-divider"></div>
+                <a href="signup.html">sign-up</a>
+    `;
+                
+                // Show/hide toggle
+                userIcon.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Prevent window click from instantly hiding it
+                    dropdown.hidden = !dropdown.hidden;
+                });
+                
+                // Close when clicking outside
+                document.addEventListener("click", (e) => {
+                    if (!e.target.closest(".user-dropdown")) {
+                        dropdown.hidden = true;
+                    }
+                });
+                
+                // Handle sign out
+                dropdown.addEventListener("click", (e) => {
+                    if (e.target.id === "signoutLink") {
+                        e.preventDefault();
+                        localStorage.removeItem("isLoggedIn");
+                        localStorage.removeItem("loggedInEmail");
+                        window.location.href = "home.html";
+                    }
+                });
+            });
+        </script>
+                <script>
+            const searchInput = document.getElementById("searchInput");
+            
+            searchInput.addEventListener("keypress", function(e) {
+                if (e.key === "Enter") {
+                    const query = searchInput.value.trim().toLowerCase();
+                    if (query) {
+                        localStorage.setItem("searchQuery", query);
+                        window.location.href = "shop.html";
+                        
+                        searchInput.value = "";
+                    }
+                }
+            });
+        </script>
+</body>
+</html>

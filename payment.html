@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pQdfVjNf7D/tTFeVBNdtGmSp7wH4vK+aVhmpNzRZxPYBGMZzL5qstZZR1+UjPZFO" crossorigin="anonymous">
+    <link rel="stylesheet" href="payment.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.fade-in-section');
+            
+            const options = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="payment-wrapper fade-in-section">
+        <div class="payment-card fade-in-section">
+            <h2>delivery address</h2>
+            <p id="displayAddress">loading address...</p>
+            
+            <hr />
+            
+            <h2>payment type</h2>
+            <p>card</p>
+            
+            <form id="paymentForm">
+                <div class="card-fields">
+                    <div class="payment-row">
+                        <input type="text" placeholder="name on card" id="cardName" class="payment-input" />
+                    </div>
+                    <div class="payment-row">
+                        <input type="text" placeholder="card number" id="cardNumber" class="payment-input" />
+                    </div>
+                    <div class="payment-row">
+                        <input type="text" placeholder="expiry" id="expiry" class="payment-input" />
+                        <input type="text" placeholder="cvv" id="cvv" class="payment-input" />
+                    </div>
+                </div>
+                
+                <div class="payment-icons">
+                    <img src="VISA.svg" alt="Visa">
+                    <img src="MASTERCARD.svg" alt="Mastercard">
+                    <img src="AMEX.svg" alt="Amex">
+                    <img src="DISCOVER.svg" alt="Discover">
+                </div>
+                
+                <hr />
+                
+                <div class="total-row">
+                    <span>total</span>
+                    <span id="finalTotal">€90.00</span>
+                </div>
+                
+                <button class="pay-button">pay now</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const storedAddress = localStorage.getItem("savedAddress");
+        document.getElementById("displayAddress").textContent = storedAddress || "no address found.";
+        
+        const storedTotal = localStorage.getItem("finalTotal");
+        document.getElementById("finalTotal").textContent = storedTotal || "€0.00";
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("paymentForm");
+            
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                
+                const cardName = document.getElementById("cardName").value.trim();
+                const cardNumber = document.getElementById("cardNumber").value.trim();
+                const expiry = document.getElementById("expiry").value.trim();
+                const cvv = document.getElementById("cvv").value.trim();
+                
+                if (cardName && cardNumber && expiry && cvv) {
+                    
+                    localStorage.setItem("paymentConfirmed", "true");
+                    
+                    setTimeout(() => {
+                        window.location.href = "orderconfirmation.html";
+                    }, 500);
+                } else {
+                    alert("Please fill in all payment details.");
+                }
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-RUtn2BaQIRHqqv8r+uePZC7zgjXNcZfYKtZIfblT7uPZK+P6gWJ8TDixow1XjiyD" crossorigin="anonymous"></script>
+    <script>
+        window.addEventListener('resize', handleMobileAdjustments);
+        window.addEventListener('DOMContentLoaded', handleMobileAdjustments);
+        
+        function handleMobileAdjustments() {
+            if (window.innerWidth < 768) {
+                document.body.classList.add('mobile-view');
+            } else {
+                document.body.classList.remove('mobile-view');
+            }
+        }
+    </script>
+    <script>
+        function updateMobileClass() {
+            if (window.innerWidth < 768) {
+                document.body.classList.add('mobile-view');
+            } else {
+                document.body.classList.remove('mobile-view');
+            }
+        }
+        
+        window.addEventListener('resize', updateMobileClass);
+        window.addEventListener('DOMContentLoaded', updateMobileClass);
+    </script>
+    <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const dropdown = document.getElementById("dropdownMenu");
+                const userIcon = document.getElementById("userIcon");
+                const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+                
+                // Inject menu content
+                dropdown.innerHTML = isLoggedIn
+                ? `
+                <a href="user.html">profile</a>
+                <div class="dropdown-divider"></div>
+                <a href="home.html" id="signoutLink">sign out</a>
+    `
+                : `
+                <a href="login.html">login</a>
+                <div class="dropdown-divider"></div>
+                <a href="signup.html">sign-up</a>
+    `;
+                
+                // Show/hide toggle
+                userIcon.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Prevent window click from instantly hiding it
+                    dropdown.hidden = !dropdown.hidden;
+                });
+                
+                // Close when clicking outside
+                document.addEventListener("click", (e) => {
+                    if (!e.target.closest(".user-dropdown")) {
+                        dropdown.hidden = true;
+                    }
+                });
+                
+                // Handle sign out
+                dropdown.addEventListener("click", (e) => {
+                    if (e.target.id === "signoutLink") {
+                        e.preventDefault();
+                        localStorage.removeItem("isLoggedIn");
+                        localStorage.removeItem("loggedInEmail");
+                        window.location.href = "home.html";
+                    }
+                });
+            });
+        </script>
+                <script>
+            const searchInput = document.getElementById("searchInput");
+            
+            searchInput.addEventListener("keypress", function(e) {
+                if (e.key === "Enter") {
+                    const query = searchInput.value.trim().toLowerCase();
+                    if (query) {
+                        localStorage.setItem("searchQuery", query);
+                        window.location.href = "shop.html";
+                        
+                        searchInput.value = "";
+                    }
+                }
+            });
+        </script>
+</body>
+</html>

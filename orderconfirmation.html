@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Order Confirmation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pQdfVjNf7D/tTFeVBNdtGmSp7wH4vK+aVhmpNzRZxPYBGMZzL5qstZZR1+UjPZFO" crossorigin="anonymous">
+    <link rel="stylesheet" href="orderconfirmation.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            margin: 0;
+            padding-top: 0;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.fade-in-section');
+            
+            const options = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="AOYN.png" alt="Logo">
+            </div>
+            <nav>
+            </header>
+            
+            <main class="confirmation-wrapper fade-in-section">
+                <section class="confirmation-left fade-in-section">
+                    <h2>order confirmed!</h2>
+                    <p class="label">it will be delivered to:</p>
+                    <p class="delivery-address" id="confirmAddress"></p>
+                    
+                    <p class="label">a confirmation email has been sent to:</p>
+                    <p class="email" id="confirmationEmail">placeholder@email.com</p>
+                    <p id="emailOutput" style="display:none;"></p>
+                    
+                    
+                    <hr />
+                    <p class="footer-text">for any delivery queries, visit our <a href="faq.html">faq</a></p>
+                    <hr />
+                    <p class="footer-text">track your <a href="user.html">order</a></p>
+                    <hr />
+                    <p class="return-home">return to home <a href="home.html">here</a></p>
+                </section>
+                
+                <section class="confirmation-right fade-in-section">
+                    <h2>order no. <span id="orderId">R000000</span></h2>
+                    <hr />
+                    <div id="orderedItems"></div>
+                    <span id="orderTotal">€0.00</span>
+                    <div class="total-line">
+                        <span>total</span>
+                        <span id="finalPrice">€0.00</span>
+                    </div>
+                </section>
+            </main>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    // 1. Address
+                    const address = localStorage.getItem("savedAddress") || "No address provided.";
+                    document.getElementById("confirmAddress").textContent = localStorage.getItem("savedAddress") || "No address provided.";
+                    
+                    // 2. Email 
+                    const emailDisplay = document.getElementById("emailOutput");
+                    document.getElementById("confirmationEmail").textContent = localStorage.getItem("savedEmail") || "placeholder@email.com";
+                    
+                    
+                    document.getElementById("emailOutput").textContent = localStorage.getItem("savedEmail") || "placeholder@email.com";
+                    
+                    // 3. Display of Cart Items
+                    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                    console.log("Cart contents on confirmation page:", cart);
+                    
+                    const container = document.getElementById("orderedItems");
+                    
+                    
+                    if (cart.length === 0) {
+                        container.innerHTML = "<p>No items were ordered.</p>";
+                    } else {
+                        cart.forEach(item => {
+                            const itemDiv = document.createElement("div");
+                            itemDiv.className = "item";
+                            itemDiv.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" />
+                    <div>
+                        <h3>${item.name}</h3>
+                        <p>€${item.price.toFixed(2)}</p>
+                        <p>quantity <strong>${item.quantity || 1}</strong></p>
+                    </div>
+                `;
+                            container.appendChild(itemDiv);
+                        });
+                    }
+                    
+                    // 4. Total
+                    const finalTotal = localStorage.getItem("finalTotal") || "€0.00";
+                    document.getElementById("orderTotal").textContent = finalTotal;
+                    document.getElementById("finalPrice").textContent = finalTotal;
+                    
+                    // 5. Order Number
+                    const orderNumber = "R" + Math.floor(100000 + Math.random() * 900000);
+                    document.getElementById("orderId").textContent = orderNumber;
+                    localStorage.setItem("orderId", orderNumber);
+                    
+                    // Re: 5. - Save order to localStorage for user.html
+                    const lastOrder = {
+                        orderId: orderNumber,
+                        date: new Date().toLocaleDateString('en-GB', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                        }),
+                        items: cart,
+                        subtotal: finalTotal.replace("€", ""),
+                        total: finalTotal.replace("€", "")
+                    };
+                    localStorage.setItem("lastOrder", JSON.stringify(lastOrder));
+                    
+                    
+                    // 6. Clear cart after confirming
+                    localStorage.removeItem("cart");
+                    
+                    // 7. Clear all relevant checkout data
+                    localStorage.removeItem("cart");
+                    localStorage.removeItem("finalTotal");
+                    localStorage.removeItem("savedEmail");
+                    localStorage.removeItem("savedAddress");
+                    
+                    // 8. Optionally show confirmation message
+                    const clearedNotice = document.createElement("p");
+                    clearedNotice.textContent = "your cart has been successfully cleared.";
+                    clearedNotice.style.color = "#4CAF50";
+                    clearedNotice.style.marginTop = "20px";
+                    
+                    // Append message below the left panel (or anywhere you prefer)
+                    document.querySelector(".confirmation-left").appendChild(clearedNotice);
+                    
+                });
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-RUtn2BaQIRHqqv8r+uePZC7zgjXNcZfYKtZIfblT7uPZK+P6gWJ8TDixow1XjiyD" crossorigin="anonymous"></script>
+            <script>
+                window.addEventListener('resize', handleMobileAdjustments);
+                window.addEventListener('DOMContentLoaded', handleMobileAdjustments);
+                
+                function handleMobileAdjustments() {
+                    if (window.innerWidth < 768) {
+                        document.body.classList.add('mobile-view');
+                    } else {
+                        document.body.classList.remove('mobile-view');
+                    }
+                }
+            </script>
+            <script>
+                function updateMobileClass() {
+                    if (window.innerWidth < 768) {
+                        document.body.classList.add('mobile-view');
+                    } else {
+                        document.body.classList.remove('mobile-view');
+                    }
+                }
+                
+                window.addEventListener('resize', updateMobileClass);
+                window.addEventListener('DOMContentLoaded', updateMobileClass);
+            </script>
+
+        </body>
+        </html>

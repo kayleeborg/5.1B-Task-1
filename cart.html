@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const isLoggedIn = localStorage.getItem("isLoggedIn");
+            if (isLoggedIn !== "true") {
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pQdfVjNf7D/tTFeVBNdtGmSp7wH4vK+aVhmpNzRZxPYBGMZzL5qstZZR1+UjPZFO" crossorigin="anonymous">
+    <link rel="stylesheet" href="cart.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.fade-in-section');
+            
+            const options = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="AOYN.png" alt="Logo">
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">home</a></li>
+                    <li><a href="shop.html">sets</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contactform.html">contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-icons">
+            <div class="search-container">
+                <input type="text" placeholder="Search..." id="searchInput">
+                <img src="SEARCH.svg" alt="Search Icon" class="search-icon">
+            </div>
+            <a href="wishlist.html"><img src="WISHLIST.svg" alt="Wishlist"></a>
+            <a href="cart.html"><img src="CART.svg" alt="Cart"></a>
+            <div class="user-dropdown">
+                <img src="USER.svg" alt="User Icon" id="userIcon" class="user-icon" />
+                <div class="dropdown-content" id="dropdownMenu" hidden></div>
+            </div>
+    </header>
+    <h1 class="cart-title fade-in-section">cart</h1>
+    <div class="cart-wrapper fade-in-section">
+        <div class="cart-items fade-in-section">
+            <!-- multiple .cart-item entries inserted via JS -->
+        </div>
+        
+        <div class="cart-summary">
+            <h2>total</h2>
+            <div class="summary-line">
+                <span>sub-total</span>
+                <span class="subtotal-amount">€0.00</span>
+            </div>
+            <div class="summary-line">
+                <span>delivery</span>
+                <span>calculated at checkout*</span>
+            </div>
+            <button class="checkout-button">checkout</button>
+            <p class="disclaimer">*free delivery provided locally on orders over €35.00.</p>
+            <div class="payment-icons">
+                <img src="visa.svg" alt="Visa">
+                <img src="mastercard.svg" alt="MasterCard">
+                <img src="amex.svg" alt="Amex">
+                <img src="discover.svg" alt="Discover">
+            </div>
+        </div>
+    </div>
+    
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const cartContainer = document.querySelector(".cart-items");
+        const subtotalElem = document.querySelector(".subtotal-amount"); // optional if you want dynamic updating
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        
+        // If cart is empty
+        if (cart.length === 0) {
+            cartContainer.innerHTML = "<p>your cart is empty.</p>";
+            return;
+        }
+        
+        // Render each cart item
+        cart.forEach((item, index) => {
+            const itemDiv = document.createElement("div");
+            itemDiv.className = "cart-item";
+            
+            itemDiv.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" />
+                    <div class="item-details">
+                        <h3>${item.name}</h3>
+                        <p>€${item.price.toFixed(2)}</p>
+                        <div class="quantity">
+                            <button class="qty-btn decrease">−</button>
+                            <span class="qty">${item.quantity}</span>
+                            <button class="qty-btn increase">+</button>
+                            <button class="remove-item" aria-label="Remove item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FC4A9D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                            <path d="M10 11v6"></path>
+                            <path d="M14 11v6"></path>
+                            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+                            </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            
+            
+            
+            // Append to DOM
+            cartContainer.appendChild(itemDiv);
+            
+            // Quantity change handlers
+            const qtyElem = itemDiv.querySelector(".qty");
+            itemDiv.querySelector(".increase").addEventListener("click", () => {
+                item.quantity++;
+                qtyElem.textContent = item.quantity;
+                updateCart();
+            });
+            
+            itemDiv.querySelector(".decrease").addEventListener("click", () => {
+                if (item.quantity > 1) {
+                    item.quantity--;
+                    qtyElem.textContent = item.quantity;
+                    updateCart();
+                }
+            });
+            
+            // Remove item
+            itemDiv.querySelector(".remove-item").addEventListener("click", () => {
+                cart.splice(index, 1);
+                updateCart();
+                location.reload(); // Refresh page to reflect change
+            });
+        });
+        
+        updateSummary(); // Initialize summary
+        
+        function updateCart() {
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateSummary();
+        }
+        
+        function updateSummary() {
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const summaryElem = document.querySelector(".cart-summary .summary-line span:last-child");
+            if (summaryElem) summaryElem.textContent = `€${total.toFixed(2)}`;
+        }
+    });
+</script>
+
+<script src="cart.js"></script>
+
+<h2 class="forgot-title fade-in-section">forgot something?</h2>
+<div class="recommend-inline fade-in-section">
+    <div class="recommend-card fade-in-section">
+        <a href="product2.html">
+            <img src="HAWAII LOLITA.jpg" alt="Hawaii Lolita" />
+            <h3>hawaii lolita</h3>
+            <p>€45.00</p>
+        </a>
+    </div>
+    <div class="recommend-card fade-in-section">
+        <a href="product8.html">
+            <img src="SWEETIE PINK.jpg" alt="Sweetie Pink" />
+            <h3>sweetie pink</h3>
+            <p>€55.00</p>
+        </a>
+    </div>
+</div>
+
+<footer class="back-to-top-bar fade-in-section">
+    <button onclick="scrollToTop()" class="back-to-top-button">
+        go back to top <span class="arrow-up">↑</span>
+    </button>
+</footer>
+<script>
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const checkoutBtn = document.querySelector(".checkout-button");
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener("click", () => {
+                window.location.href = "checkout.html";
+            });
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-RUtn2BaQIRHqqv8r+uePZC7zgjXNcZfYKtZIfblT7uPZK+P6gWJ8TDixow1XjiyD" crossorigin="anonymous"></script>
+        <script>
+            window.addEventListener('resize', handleMobileAdjustments);
+            window.addEventListener('DOMContentLoaded', handleMobileAdjustments);
+            
+            function handleMobileAdjustments() {
+                if (window.innerWidth < 768) {
+                    document.body.classList.add('mobile-view');
+                } else {
+                    document.body.classList.remove('mobile-view');
+                }
+            }
+        </script>
+        <script>
+            function updateMobileClass() {
+                if (window.innerWidth < 768) {
+                    document.body.classList.add('mobile-view');
+                } else {
+                    document.body.classList.remove('mobile-view');
+                }
+            }
+            
+            window.addEventListener('resize', updateMobileClass);
+            window.addEventListener('DOMContentLoaded', updateMobileClass);
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const dropdown = document.getElementById("dropdownMenu");
+                const userIcon = document.getElementById("userIcon");
+                const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+                
+                // Inject menu content
+                dropdown.innerHTML = isLoggedIn
+                ? `
+                <a href="user.html">profile</a>
+                <div class="dropdown-divider"></div>
+                <a href="home.html" id="signoutLink">sign out</a>
+    `
+                : `
+                <a href="login.html">login</a>
+                <div class="dropdown-divider"></div>
+                <a href="signup.html">sign-up</a>
+    `;
+                
+                // Show/hide toggle
+                userIcon.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Prevent window click from instantly hiding it
+                    dropdown.hidden = !dropdown.hidden;
+                });
+                
+                // Close when clicking outside
+                document.addEventListener("click", (e) => {
+                    if (!e.target.closest(".user-dropdown")) {
+                        dropdown.hidden = true;
+                    }
+                });
+                
+                // Handle sign out
+                dropdown.addEventListener("click", (e) => {
+                    if (e.target.id === "signoutLink") {
+                        e.preventDefault();
+                        localStorage.removeItem("isLoggedIn");
+                        localStorage.removeItem("loggedInEmail");
+                        window.location.href = "home.html";
+                    }
+                });
+            });
+        </script>
+                <script>
+            const searchInput = document.getElementById("searchInput");
+            
+            searchInput.addEventListener("keypress", function(e) {
+                if (e.key === "Enter") {
+                    const query = searchInput.value.trim().toLowerCase();
+                    if (query) {
+                        localStorage.setItem("searchQuery", query);
+                        window.location.href = "shop.html";
+                        
+                        searchInput.value = "";
+                    }
+                }
+            });
+        </script>
+</body>
+</html>

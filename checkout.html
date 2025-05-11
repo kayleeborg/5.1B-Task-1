@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Checkout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pQdfVjNf7D/tTFeVBNdtGmSp7wH4vK+aVhmpNzRZxPYBGMZzL5qstZZR1+UjPZFO" crossorigin="anonymous">
+    <link rel="stylesheet" href="checkout.css" />
+    <script>
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            window.location.href = "login.html";
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.fade-in-section');
+            
+            const options = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="AOYN.png" alt="Logo">
+            </div>
+            <nav>
+            </header>
+            <main class="checkout-wrapper fade-in-section">
+                <div class="checkout-left fade-in-section">
+                    <div class="checkout-card fade-in-section">
+                        <h2 class="checkout-title">payment</h2>
+                        <label for="email" class="checkout-subtitle">email address</label>
+                        <input type="email" id="email" class="email-input" placeholder="enter your email address" required />
+                        <label for="address" class="checkout-subtitle">delivery address</label>
+                        <textarea id="address" class="address-input" placeholder="enter your full address here"></textarea>
+                        
+                        <hr />
+                        
+                        <h3 class="checkout-subtitle">payment type</h3>
+                        <p class="payment-method">card</p>
+                        
+                        <h4 class="accept-title">we accept:</h4>
+                        <div class="payment-icons">
+                            <img src="VISA.svg" alt="Visa" />
+                            <img src="MASTERCARD.svg" alt="MasterCard" />
+                            <img src="AMEX.svg" alt="AmEx" />
+                            <img src="DISCOVER.svg" alt="Discover" />
+                        </div>
+                        
+                        <button id="proceedToPayment" class="checkout-button">proceed to payment</button>
+                    </div>
+                </div>
+                
+                <div class="checkout-summary fade-in-section">
+                    <div class="summary-line">
+                        <span>sub-total</span>
+                        <span id="subtotalAmount">€0.00</span>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>delivery</span>
+                        <span>free</span>
+                    </div>
+                    
+                    
+                    <div class="summary-line discount-line" id="discountLine" style="display: none;">
+                        <span class="discount-label">discount applied</span>
+                        <span id="discountAmount">−€0.00</span>
+                    </div>
+                    
+                    <div class="summary-total">
+                        <span>total</span>
+                        <span id="totalAmount">€0.00</span>
+                    </div>
+                    
+                    <div class="coupon-line">
+                        <span>got a coupon?</span>
+                    </div>
+                    <div class="coupon-input-wrapper">
+                        <input type="text" id="coupon" placeholder="enter coupon code" />
+                        <button class="apply-coupon">→</button>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+        <footer class="checkout-footer fade-in-section">
+            <p>
+                by placing your order, you agree to our terms & conditions, as well as our
+                privacy and returns policies. you also consent to aoyn storing some of your
+                data, which may be used to enhance your future shopping experience.
+            </p>
+        </footer>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                const subtotalSpan = document.querySelectorAll(".summary-line span:last-child")[0];
+                const totalSpan = document.querySelector(".summary-total span:last-child");
+                const couponInput = document.getElementById("coupon");
+                const applyBtn = document.querySelector(".apply-coupon");
+                const proceedBtn = document.getElementById("proceedToPayment");
+                const addressInput = document.getElementById("address");
+                const emailInput = document.getElementById("email");
+                const discountLine = document.getElementById("discountLine");
+                const discountAmount = document.getElementById("discountAmount");
+                
+                let total = 0;
+                cart.forEach(item => {
+                    total += item.price * (item.quantity || 1);
+                });
+                
+                let finalAmount = total;
+                
+                function updateDisplay(value, discount = 0) {
+                    subtotalSpan.textContent = `€${(value + discount).toFixed(2)}`;
+                    totalSpan.textContent = `€${value.toFixed(2)}`;
+                    
+                    if (discount > 0) {
+                        discountLine.style.display = "flex";
+                        discountAmount.textContent = `−€${discount.toFixed(2)}`;
+                    } else {
+                        discountLine.style.display = "none";
+                    }
+                }
+                
+                // Initial subtotal/total setup
+                updateDisplay(total);
+                
+                applyBtn.addEventListener("click", () => {
+                    const code = couponInput.value.trim().toUpperCase();
+                    
+                    if (code === "AOYN10") {
+                        const discount = total * 0.10;
+                        finalAmount = total - discount;
+                        updateDisplay(finalAmount, discount);
+                    } else {
+                        alert("Invalid coupon code.");
+                        finalAmount = total;
+                        updateDisplay(finalAmount, 0);
+                    }
+                });
+                
+                proceedBtn.addEventListener("click", () => {
+                    const email = emailInput.value.trim();
+                    const address = addressInput.value.trim();
+                    
+                    if (!email) {
+                        alert("Please enter your email address.");
+                        return;
+                    }
+                    
+                    if (!address) {
+                        alert("Please enter your delivery address.");
+                        return;
+                    }
+                    
+                    localStorage.setItem("savedEmail", email);
+                    localStorage.setItem("savedAddress", address);
+                    localStorage.setItem("finalTotal", `€${finalAmount.toFixed(2)}`);
+                    
+                    localStorage.setItem("cart", localStorage.getItem("cart"));
+                    
+                    window.location.href = "payment.html";
+                });
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-RUtn2BaQIRHqqv8r+uePZC7zgjXNcZfYKtZIfblT7uPZK+P6gWJ8TDixow1XjiyD" crossorigin="anonymous"></script>
+        <script>
+            window.addEventListener('resize', handleMobileAdjustments);
+            window.addEventListener('DOMContentLoaded', handleMobileAdjustments);
+            
+            function handleMobileAdjustments() {
+                if (window.innerWidth < 768) {
+                    document.body.classList.add('mobile-view');
+                } else {
+                    document.body.classList.remove('mobile-view');
+                }
+            }
+        </script>
+        <script>
+            function updateMobileClass() {
+                if (window.innerWidth < 768) {
+                    document.body.classList.add('mobile-view');
+                } else {
+                    document.body.classList.remove('mobile-view');
+                }
+            }
+            
+            window.addEventListener('resize', updateMobileClass);
+            window.addEventListener('DOMContentLoaded', updateMobileClass);
+        </script>
+    </body>
+    </html>
+    

@@ -1,0 +1,578 @@
+/* --- Reset / Base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* --- Header Navbar --- */
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px; /* Remove vertical padding */
+    background-color: white;
+    box-sizing: border-box;
+    z-index: 10; /* Ensure the header stays above other content */
+    position: relative;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.logo img {
+    width: 97px;
+    height: 103.68px;
+    object-fit: contain;
+}
+
+nav ul {
+    display: flex;
+    gap: 30px;
+}
+
+nav ul li a:hover {
+    color: #C1C1C2;
+}
+
+/* --- Header Icons (Search Input and Icons) --- */
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 40px;
+}
+
+.header-icons input {
+    padding: 8px 15px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    transition: width 0.4s ease, background-color 0.4s ease;
+}
+
+.header-icons input:hover,
+.header-icons input:focus {
+    width: 220px;
+    background-color: #e0e0e0;
+}
+
+.header-icons i:hover,
+.header-icons img:hover {
+    filter: brightness(3.5) saturate(150%) contrast(100%) sepia(50%) hue-rotate(20deg);
+    transform: scale(1.1);
+    transition: filter 0.4s ease, transform 0.3s ease;
+}
+
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    will-change: opacity, transform;
+}
+
+.fade-in-section.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Search Bar */
+.search-container {
+    position: relative;
+}
+
+.search-container input {
+    padding: 8px 40px 8px 15px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    filter: brightness(0) saturate(100%) invert(40%) sepia(8%) saturate(500%) hue-rotate(20deg) brightness(95%) contrast(85%);
+}
+
+/* User Dropdown */
+
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-icon {
+    width: 28px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 36px;
+    right: 0;
+    background-color: white;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    padding: 10px 0;
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    margin-top: 37px;
+}
+
+.dropdown-content[hidden] {
+    display: none !important;
+}
+
+.dropdown-content a {
+    padding: 10px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #111;
+    text-decoration: none;
+    text-transform: lowercase;
+}
+
+.dropdown-content a:hover {
+    background-color: #f8f8f8;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 5px 20px;
+}
+
+@keyframes fadeDropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-content {
+    animation: fadeDropIn 0.25s ease-out;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* END OF HEADER */
+
+/* --- Main Content --- */
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+.product-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.product-container {
+    max-width: 900px;
+    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    animation: fadeIn 1.5s ease forwards;
+}
+
+.product-gallery {
+    flex: 1 1 400px;
+    position: relative;
+    text-align: center;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+.main-image {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.gallery-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    gap: 20px;
+}
+
+.gallery-prev, .gallery-next {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #e91e63;
+}
+
+.gallery-dots {
+    display: flex;
+    gap: 5px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background: #ccc;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot.active {
+    background: #e91e63;
+}
+
+.wishlist-icon {
+    margin-top: 15px;
+}
+
+.product-details {
+    flex: 1 1 300px;
+}
+
+.product-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-attributes p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.attribute-tag {
+    background: #ddd;
+    border-radius: 20px;
+    padding: 2px 10px;
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.product-price {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.qty-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: #f5f5f5;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.qty-btn:hover {
+    background: #e0e0e0;
+}
+
+#quantity {
+    width: 40px;
+    text-align: center;
+    font-size: 16px;
+    border: none;
+    background: transparent;
+    pointer-events: none; /* No direct input */
+}
+
+/* Hiding number input arrows because I want to keep <input type="number"> */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.add-to-cart {
+    background: #FC4A9D;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.add-to-cart:hover {
+    background: #FF9BCA;
+}
+
+.product-includes,
+.product-notes {
+    background: none;
+    box-shadow: none;
+    padding: 10px 0;
+    margin-top: 30px;
+    border-radius: 0;
+}
+.you-may-also-like {
+    margin-top: 40px;
+}
+
+.recommendations {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+
+.product-includes h2,
+.you-may-also-like h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.product-includes ul {
+    padding-left: 20px;
+}
+
+.product-notes p {
+    font-size: 14px;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+
+.recommend-card {
+    flex: 1 1 120px; /* Make cards smaller */
+    max-width: 150px;
+    background: #fff;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.recommend-card:hover {
+    transform: scale(0.97); /* Slight press effect on hover */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.recommend-card img {
+    width: 100%;
+    height: fit-content;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.recommend-card h3 {
+    font-size: 14px; /* Smaller text */
+    margin: 8px 0 3px 0;
+}
+
+.recommend-card p {
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+
+
+.image-carousel {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+}
+
+.image-carousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    z-index: 1;
+}
+
+.arrow-left {
+    left: 10px;
+}
+
+.arrow-right {
+    right: 10px;
+}
+
+.details {
+    flex: 1;
+}
+
+.wishlist-btn {
+    width: 80px;
+    height: 66px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Center the icon horizontally */
+    align-items: center; /* Center the icon vertically */
+    color: #FC4A9D; /* Base color */
+    transition: color 0.3s ease;
+    margin: 10px auto 0; /* Add margin to center the button and space it below the image */
+}
+
+.wishlist-btn:hover {
+    color: #FF9BCA; /* Hover color */
+}
+
+.wishlist-btn svg {
+    width: 100%;
+    height: 100%;
+}
+
+.wishlist-btn.active {
+    color: #b21961; /* Darker pink when added to wishlist */
+}
+
+.main-image {
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+
+.main-image.fade-out {
+    opacity: 0;
+}
+
+.product-gallery {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* Or whatever your preferred width */
+    margin: 0 auto;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%; /* If 3 images */
+}
+
+.carousel-image {
+    width: 100%;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+
+/* --- Footer --- */
+
+/* Back to Top Bar */
+.back-to-top-bar {
+    height: 100px; 
+    background-color: #264a2e; /* dark green */
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+
+.back-to-top-button {
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+.back-to-top-button:hover {
+    color: #ff4081; /* pink on hover */
+    animation: fadeIn 1.5s ease forwards;
+}
+
+.arrow-up {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+.back-to-top-button:hover .arrow-up {
+    transform: translateY(-4px); /* slight lift on hover */
+    animation: fadeIn 1.5s ease forwards;
+}
+
+/* Mobile View */
+
+body.mobile-view .hero-text h1 {
+    font-size: 32px;
+}

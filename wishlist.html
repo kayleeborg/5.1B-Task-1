@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wishlist</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const isLoggedIn = localStorage.getItem("isLoggedIn");
+            if (isLoggedIn !== "true") {
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pQdfVjNf7D/tTFeVBNdtGmSp7wH4vK+aVhmpNzRZxPYBGMZzL5qstZZR1+UjPZFO" crossorigin="anonymous">
+    <link rel="stylesheet" href="wishlist.css" />
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="AOYN.png" alt="Logo">
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">home</a></li>
+                    <li><a href="shop.html">sets</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contactform.html">contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-icons">
+            <div class="search-container">
+                <input type="text" placeholder="Search..." id="searchInput">
+                <img src="SEARCH.svg" alt="Search Icon" class="search-icon">
+            </div>
+            <a href="wishlist.html"><img src="WISHLIST.svg" alt="Wishlist"></a>
+            <a href="cart.html"><img src="CART.svg" alt="Cart"></a>
+            <div class="user-dropdown">
+                <img src="USER.svg" alt="User Icon" id="userIcon" class="user-icon" />
+                <div class="dropdown-content" id="dropdownMenu" hidden></div>
+            </div>
+        </header>
+        
+        <main class="wishlist-page fade-in-section">
+            <h1 class="wishlist-title fade-in-section">Your Wishlist</h1>
+            <div class="wishlist-grid fade-in-section" id="wishlistGrid"></div>
+        </main>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const wishlistContainer = document.getElementById("wishlistGrid");
+                const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+                
+                console.log("WISHLIST FROM STORAGE:", wishlist);
+                
+                if (wishlist.length === 0) {
+                    wishlistContainer.innerHTML = "<p>your wishlist is empty.</p>";
+                    return;
+                }
+                
+                wishlist.forEach(item => {
+                    const card = document.createElement("div");
+                    card.className = "wishlist-card fade-in-section";
+                    card.innerHTML = `
+                <a href="${item.url || '#'}">
+            <img src="${item.image || 'https://via.placeholder.com/300'}" alt="${item.name}">
+            <div class="wishlist-info">
+            <h3>${item.name}</h3>
+            <p>€${item.price}</p>
+            </div>
+            </a>
+        `;
+                    wishlistContainer.appendChild(card);
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const sections = document.querySelectorAll('.fade-in-section');
+                const options = {
+                    threshold: 0.1
+                };
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, options);
+                
+                sections.forEach(section => observer.observe(section));
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-RUtn2BaQIRHqqv8r+uePZC7zgjXNcZfYKtZIfblT7uPZK+P6gWJ8TDixow1XjiyD" crossorigin="anonymous"></script>
+        <script>
+            window.addEventListener('resize', handleMobileAdjustments);
+            window.addEventListener('DOMContentLoaded', handleMobileAdjustments);
+            
+            function handleMobileAdjustments() {
+                if (window.innerWidth < 768) {
+                    document.body.classList.add('mobile-view');
+                } else {
+                    document.body.classList.remove('mobile-view');
+                }
+            }
+        </script>
+        <script>
+            function updateMobileClass() {
+                if (window.innerWidth < 768) {
+                    document.body.classList.add('mobile-view');
+                } else {
+                    document.body.classList.remove('mobile-view');
+                }
+            }
+            
+            window.addEventListener('resize', updateMobileClass);
+            window.addEventListener('DOMContentLoaded', updateMobileClass);
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const dropdown = document.getElementById("dropdownMenu");
+                const userIcon = document.getElementById("userIcon");
+                const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+                
+                // Inject menu content
+                dropdown.innerHTML = isLoggedIn
+                ? `
+                <a href="user.html">profile</a>
+                <div class="dropdown-divider"></div>
+                <a href="home.html" id="signoutLink">sign out</a>
+    `
+                : `
+                <a href="login.html">login</a>
+                <div class="dropdown-divider"></div>
+                <a href="signup.html">sign-up</a>
+    `;
+                
+                // Show/hide toggle
+                userIcon.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Prevent window click from instantly hiding it
+                    dropdown.hidden = !dropdown.hidden;
+                });
+                
+                // Close when clicking outside
+                document.addEventListener("click", (e) => {
+                    if (!e.target.closest(".user-dropdown")) {
+                        dropdown.hidden = true;
+                    }
+                });
+                
+                // Handle sign out
+                dropdown.addEventListener("click", (e) => {
+                    if (e.target.id === "signoutLink") {
+                        e.preventDefault();
+                        localStorage.removeItem("isLoggedIn");
+                        localStorage.removeItem("loggedInEmail");
+                        window.location.href = "home.html";
+                    }
+                });
+            });
+        </script>
+                <script>
+            const searchInput = document.getElementById("searchInput");
+            
+            searchInput.addEventListener("keypress", function(e) {
+                if (e.key === "Enter") {
+                    const query = searchInput.value.trim().toLowerCase();
+                    if (query) {
+                        localStorage.setItem("searchQuery", query);
+                        window.location.href = "shop.html";
+                        
+                        searchInput.value = "";
+                    }
+                }
+            });
+        </script>
+    </body>
+    </html>
