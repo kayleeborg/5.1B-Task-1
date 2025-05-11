@@ -122,6 +122,72 @@ nav ul li a:hover {
     filter: brightness(0) saturate(100%) invert(40%) sepia(8%) saturate(500%) hue-rotate(20deg) brightness(95%) contrast(85%);
 }
 
+/* User Dropdown */
+
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-icon {
+    width: 28px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 36px;
+    right: 0;
+    background-color: white;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    padding: 10px 0;
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    margin-top: 37px;
+}
+
+.dropdown-content[hidden] {
+    display: none !important;
+}
+
+.dropdown-content a {
+    padding: 10px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #111;
+    text-decoration: none;
+    text-transform: lowercase;
+}
+
+.dropdown-content a:hover {
+    background-color: #f8f8f8;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 5px 20px;
+}
+
+@keyframes fadeDropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-content {
+    animation: fadeDropIn 0.25s ease-out;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
 /* END OF HEADER */
 
 /* BODY */
@@ -219,7 +285,7 @@ nav ul li a:hover {
 
 /* Submit button styling */
 .submit-button {
-    background-color: #ff4081; /* Pink button color */
+    background-color: #FC4A9D; /* Pink button color */
     color: white;
     border: none;
     border-radius: 20px;
@@ -229,10 +295,11 @@ nav ul li a:hover {
     cursor: pointer;
     text-transform: lowercase;
     align-self: flex-start; /* Align button to the left */
+    font-family: 'Montserrat', sans-serif;
 }
 
 .submit-button:hover {
-    background-color: #e73370; /* Darker pink on hover */
+    background-color: #FF9BCA; 
 }
 
 /* Contact image container */
@@ -256,4 +323,78 @@ nav ul li a:hover {
     margin-bottom: 8px; 
     padding: 0; /* Remove any paddings */
     animation: fadeIn 1.5s ease forwards;
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* Show with fade-in */
+.popup-overlay {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    /* other properties... */
+}
+
+.popup-overlay.show {
+    opacity: 1;
+}
+
+
+
+.popup-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+    max-width: 700px;
+    width: 90%;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1.5s ease forwards;
+}
+
+.popup-image {
+    width: auto;
+    height: auto;
+}
+
+.popup-text h2 {
+    font-size: 24px;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.popup-text p {
+    font-size: 18px;
+    color: #333;
+}
+
+.popup-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #f04e98;
+}
+
+/* Mobile View */
+
+body.mobile-view .hero-text h1 {
+    font-size: 32px;
 }
